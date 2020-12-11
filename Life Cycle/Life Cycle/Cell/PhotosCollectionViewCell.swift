@@ -38,13 +38,12 @@ final class PhotosCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubviews(imageView)
         
-        NSLayoutConstraint.activate([
-            
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        imageView.snp.makeConstraints { (make) -> Void in
+            make.left.equalTo(contentView)
+            make.top.equalTo(contentView)
+            make.bottom.equalTo(contentView)
+            make.right.equalTo(contentView)
+         }
     }
     
 }

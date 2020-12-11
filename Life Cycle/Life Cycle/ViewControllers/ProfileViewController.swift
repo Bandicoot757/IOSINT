@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProfileViewController: UIViewController {
     
@@ -31,12 +32,14 @@ class ProfileViewController: UIViewController {
         super .viewWillLayoutSubviews()
         view.addSubviews(tableView)
         
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
+        let safeArea = view.safeAreaLayoutGuide
+        
+        tableView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(safeArea)
+            make.left.equalTo(safeArea)
+            make.bottom.equalTo(safeArea)
+            make.right.equalTo(safeArea)
+        }
 
     }
     

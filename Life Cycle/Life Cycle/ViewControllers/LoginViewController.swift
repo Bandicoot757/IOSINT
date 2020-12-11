@@ -97,14 +97,8 @@ class LoginViewController: UIViewController, UIScrollViewDelegate {
         
         let destinationVC = ProfileViewController()
         destinationVC.modalPresentationStyle = .fullScreen
-        
-        UIApplication.shared.beginBackgroundTask(expirationHandler: {
-            self.show(destinationVC, sender: self)
-        })
-        
-        let _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            print("\(UIApplication.shared.backgroundTimeRemaining)")
-          }
+        self.show(destinationVC, sender: self)
+
     }
     
     @objc fileprivate func keyboardWillShow(notification: NSNotification) {
@@ -126,43 +120,54 @@ class LoginViewController: UIViewController, UIScrollViewDelegate {
         super.viewWillLayoutSubviews()
         setSubviews()
         
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
-            
-            logoImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            logoImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
-            logoImage.widthAnchor.constraint(equalToConstant: 100),
-            logoImage.heightAnchor.constraint(equalToConstant: 100),
-            
-            loginTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            loginTextField.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 120),
-            loginTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            loginTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            loginTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            passwordTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: 0),
-            passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            loginButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
-            loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            loginButton.heightAnchor.constraint(equalToConstant: 50)
-            
-        ])
+        let safeArea = view.safeAreaLayoutGuide
+        
+        scrollView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(safeArea)
+            make.left.equalTo(safeArea)
+            make.bottom.equalTo(safeArea)
+            make.right.equalTo(safeArea)
+        }
+        
+        contentView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(scrollView)
+            make.left.equalTo(scrollView)
+            make.bottom.equalTo(scrollView)
+            make.right.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+            make.height.equalTo(scrollView)
+        }
+        
+        logoImage.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalTo(contentView)
+            make.top.equalTo(contentView).offset(120)
+            make.width.equalTo(100)
+            make.height.equalTo(100)
+        }
+        
+        loginTextField.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalTo(contentView)
+            make.top.equalTo(logoImage.snp.bottom).offset(120)
+            make.left.equalTo(contentView).offset(16)
+            make.right.equalTo(contentView).offset(-16)
+            make.height.equalTo(50)
+        }
+        
+        passwordTextField.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalTo(contentView)
+            make.top.equalTo(loginTextField.snp.bottom)
+            make.left.equalTo(contentView).offset(16)
+            make.right.equalTo(contentView).offset(-16)
+            make.height.equalTo(50)
+        }
+        
+        loginButton.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalTo(contentView)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(16)
+            make.left.equalTo(contentView).offset(16)
+            make.right.equalTo(contentView).offset(-16)
+            make.height.equalTo(50)
+        }
     }
     
     private func setSubviews() {
